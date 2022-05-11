@@ -16,12 +16,12 @@ Java Spring, JSP 기반의 웹 페이지입니다.
 
 
 
-<img src="itwillTeam4/ppt/1.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/2.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/4.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/8.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/9.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/10.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/15.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/17.JPG" width="100%" height="500px" alt="1"></img><br/>
-<img src="itwillTeam4/ppt/23.JPG" width="100%" height="500px" alt="1"></img><br/>
+<img src="itwillTeam4/ppt/1.JPG" width="100%" alt="1"></img><br/>
+<img src="itwillTeam4/ppt/2.JPG" width="100%" alt="1"></img><br/>
+<img src="itwillTeam4/ppt/4.JPG" width="100%" alt="1"></img><br/>
+<img src="itwillTeam4/ppt/8.JPG" width="100%" alt="1"></img><br/>
+<img src="itwillTeam4/ppt/9.JPG" width="100%"   alt="1"></img><br/>
+<img src="itwillTeam4/ppt/10.JPG" width="100%"   alt="1"></img><br/>
+<img src="itwillTeam4/ppt/15.JPG" width="100%"   alt="1"></img><br/>
+<img src="itwillTeam4/ppt/17.JPG" width="100%"   alt="1"></img><br/>
+<img src="itwillTeam4/ppt/23.JPG" width="100%"   alt="1"></img><br/>
