@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.team4.mapper.NoticeMapper">
+
+
+
+
+	<!-- 전체 검색 -->
+	<select id="selectAllNotice" resultType="Notice">
+
+		SELECT * FROM
+		${TABLE_NOTICE_TABLE}
+		ORDER BY ${COL_NOTICE_IDX} DESC
+
+	</select>
+
+	<!-- 총 공지글 갯수 출력 -->
+	<select id="countNotice" resultType="Integer">
+		SELECT COUNT(*) FROM
+		${TABLE_NOTICE_TABLE}
+		WHERE ${COL_NOTICE_CATEGORY} like #{act}
+	</select>
+
+	<!-- 페이징 처리 후 공지글 조회 -->
+	<select id="selectPageNotice" resultType="Notice">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM ${TABLE_NOTICE_TABLE}
+		WHERE ${COL_NOTICE_CATEGORY} like #{act}
+		ORDER BY
+		NOTICE_IDX DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<!-- 홈화면 공지사항 두개만 조회 -->
+	<select id="selectTwo" resultType="Notice">
+
+		SELECT * FROM (
+
+		SELECT * FROM NOTICE_TABLE WHERE NOTICE_CATEGORY = '공지사항' ORDER BY
+		NOTICE_IDX DESC)
+
+		<![CDATA[where rownum <= 2]]>
+
+	</select>
+
+	<!-- 공지사항 글 번호로 검색 -->
+	<select id="selectOne" resultType="Notice">
+
+		SELECT * FROM
+		${TABLE_NOTICE_TABLE}
+		WHERE ${COL_NOTICE_IDX} = #{notice_idx}
+
+
+	</select>
+
+
+<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectPageNoticeIdx" resultType="Notice">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BOARD_MEET_IDX} in
+		<foreach collection="list" index="index"
+			item="a" open="(" close=")" separator=",">
+			#{a}
+		</foreach>
+
+		ORDER BY
+		<if test="orderby==0">
+			${COL_BNO}
+		</if>
+		<if test="orderby==1">
+			${COL_BOARD_VIEW_CNT}
+		</if>
+		<if test="orderby==2">
+			${COL_BOARD_REPLY_CNT}
+		</if>
+
+		DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<!-- 새 공지사항 작성 -->
+	<insert id="create">
+		INSERT INTO ${TABLE_NOTICE_TABLE}
+		(${COL_NOTICE_TITLE},${COL_NOTICE_CONTENT},${COL_NOTICE_CATEGORY})
+		VALUES (#{notice_title},#{notice_content},#{notice_category})
+	</insert>
+
+	<!-- TODO: 수정, 삭제, 검색 -->
+
+
+	<update id="update">
+
+		UPDATE ${TABLE_NOTICE_TABLE}
+		SET ${COL_NOTICE_TITLE} =
+		#{notice_title}, ${COL_NOTICE_CONTENT} =
+		#{notice_content},
+		${COL_NOTICE_REG_DATE} = sysdate,
+		${COL_NOTICE_CATEGORY} =
+		#{notice_category}
+		WHERE ${COL_NOTICE_IDX} = #{notice_idx}
+
+
+
+	</update>
+
+
+
+	<delete id="delete">
+
+		DELETE FROM ${TABLE_NOTICE_TABLE}
+		WHERE
+		${COL_NOTICE_IDX} = #{notice_idx}
+
+	</delete>
+
+
+	<select id="selectByKeyword" resultType="Notice">
+
+		SELECT * FROM ${TABLE_NOTICE_TABLE}
+
+		<if test="type == 1">
+			WHERE lower(${COL_NOTICE_TITLE}) LIKE #{keyword}
+		</if>
+		<if test="type == 2">
+			WHERE lower(${COL_NOTICE_CONTENT}) LIKE #{keyword}
+		</if>
+		<if test="type == 3">
+			WHERE lower(${COL_NOTICE_TITLE}) LIKE #{keyword}
+			OR
+			lower(${COL_NOTICE_CONTENT}) LIKE #{keyword}
+		</if>
+
+		ORDER BY ${COL_NOTICE_IDX} DESC
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

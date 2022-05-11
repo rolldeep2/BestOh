@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.team4.mapper.UserMapper">
+
+	<update id="update">
+		UPDATE ${TABLE_USER_TABLE}
+		SET ${COL_USER_NN} =
+		#{user_nn},
+		${COL_USER_PWD} = #{user_pwd},
+		${COL_USER_PHONE} =
+		#{user_phone},
+		${COL_USER_REG_DATE} = sysdate,
+		${COL_USER_TAG} =
+		#{user_tag}
+		WHERE ${COL_USER_CODE} = #{user_code}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM ${TABLE_USER_TABLE}
+		WHERE ${COL_USER_CODE}
+		= #{user_code}
+	</delete>
+
+	<update id="getKey" parameterType="Map">
+		UPDATE
+		${TABLE_USER_TABLE}
+		SET
+		${COL_USER_KEY} = #{user_key}
+		WHERE ${COL_USER_NN} = #{user_nn}
+	</update>
+	<update id="alter_userkey" parameterType="Map">
+		UPDATE
+		${TABLE_USER_TABLE}
+		SET ${COL_USER_KEY} = 'Y'
+		WHERE ${COL_USER_NN} =
+		#{user_nn} AND ${COL_USER_KEY} = #{user_key}
+	</update>
+
+	<!-- 아이디 찾기 -->
+	<select id="searchId" resultType="String">
+		select nvl(${COL_USER_ID}, 0)
+		from ${TABLE_USER_TABLE}
+		where ${COL_USER_NAME} = #{user_name} and
+		${COL_USER_PHONE} = #{user_phone}
+		and ${COL_USER_KEY} = 'Y'
+	</select>
+
+	<select id="getMeetIdx" resultType="String">
+		select ${COL_USER_MEET_IDX}
+		from ${TABLE_USER_TABLE} where ${COL_USER_CODE} = #{user_code}
+	</select>
+	
+	<!-- 비밀번호 Y 찾기 -->
+	<select id="searchPwdY" resultType="String">
+		select ${COL_USER_PWD}
+		from ${TABLE_USER_TABLE}
+		where ${COL_USER_ID} = #{user_id}
+		and ${COL_USER_KEY} = 'Y'
+	</select>
+
+
+	<update id="searchPassword" parameterType="Map">
+		update
+		${TABLE_USER_TABLE} set ${COL_USER_PWD} = #{key} where ${COL_USER_ID}
+		= #{user_id}
+	</update>
+
+	<update id="updateLike">
+		update ${TABLE_USER_TABLE} set ${COL_USER_MEET_IDX} =
+		#{user_meet_idx} where
+		${COL_USER_CODE} = #{user_code}
+	</update>
+
+
+
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.team4.mapper.ReplyMapper">
+	<insert id="insert">
+		INSERT INTO ${TABLE_REPLY_TABLE} (${COL_RTEXT}, ${COL_USER_ID}, ${COL_BNO},${COL_USER_CODE})
+		VALUES (#{rtext}, #{user_id}, #{bno},#{user_code})
+	</insert>
+
+	<select id="select" resultType="Reply">
+		SELECT * FROM ${TABLE_REPLY_TABLE}
+		WHERE ${COL_BNO} = #{bno}
+		ORDER BY ${COL_RNO} desc
+	</select>
+
+	<select id="select_like" resultType="Reply">
+		SELECT * FROM ${TABLE_REPLY_TABLE}
+		WHERE ${COL_BNO} = #{bno}
+		ORDER BY ${COL_REPLY_LIKE_CNT} desc
+	</select>
+
+	<update id="update">
+		UPDATE ${TABLE_REPLY_TABLE}
+		SET ${COL_RTEXT} = #{rtext}, ${COL_REPLY_REG_DATE} = sysdate
+		WHERE ${COL_RNO} = #{rno}
+	</update>
+	<update id="update_like">
+		UPDATE ${TABLE_REPLY_TABLE}
+		SET ${COL_REPLY_LIKE} = #{reply_like},${COL_REPLY_LIKE_CNT}=${COL_REPLY_LIKE_CNT} + 1
+		WHERE ${COL_RNO} = #{rno}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM ${TABLE_REPLY_TABLE} WHERE ${COL_RNO} = #{rno}
+	</delete>
+	<select id="readBno" resultType="java.lang.Integer">
+		SELECT ${COL_BNO} FROM ${TABLE_REPLY_TABLE}
+		WHERE ${COL_RNO} = #{rno}
+	</select>
+	<select id="readLiker" resultType="java.lang.String">
+		SELECT ${COL_REPLY_LIKE} FROM ${TABLE_REPLY_TABLE}
+		WHERE ${COL_RNO} = #{rno}
+	</select>
+	
+	
+</mapper>

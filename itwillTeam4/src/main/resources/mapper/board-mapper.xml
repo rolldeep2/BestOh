@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.team4.mapper.BoardMapper">
+
+	<select id="selectAll" resultType="Board">
+		SELECT * FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BOARD_MEET_IDX} is null
+		ORDER BY
+		${COL_BNO} DESC
+	</select>
+
+	<select id="selectLike" resultType="String">
+	SELECT ${COL_BOARD_LIKE}
+	FROM ${TABLE_BOARD_TABLE}
+		WHERE ${COL_BNO} = #{bno}
+		ORDER BY
+		${COL_BNO} DESC
+	</select>
+
+
+	<!-- 총 게스글 갯수 출력 -->
+	<select id="countBoard" resultType="Integer">
+		SELECT COUNT(*) FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BOARD_MEET_IDX} in
+		<foreach collection="list" index="index"
+			item="a" open="(" close=")" separator=",">
+			#{a}
+		</foreach>
+	</select>
+
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectPageBoardBno" resultType="Board">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BOARD_MEET_IDX} in
+		<foreach collection="list" index="index"
+			item="a" open="(" close=")" separator=",">
+			#{a}
+		</foreach>
+
+		ORDER BY
+		<if test="orderby==0">
+			${COL_BNO}
+		</if>
+		<if test="orderby==1">
+			${COL_BOARD_VIEW_CNT}
+		</if>
+		<if test="orderby==2">
+			${COL_BOARD_REPLY_CNT}
+		</if>
+		<if test="orderby==3">
+			${COL_BOARD_LIKE_CNT}
+		</if>
+
+		DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectPageBoardReply" resultType="Board">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM ${TABLE_BOARD_TABLE}
+		WHERE
+		${COL_BOARD_MEET_IDX} = #{board_meet_idx}
+		ORDER BY
+		${COL_BOARD_REPLY_CNT} DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	<select id="selectPageBoardView" resultType="Board">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM ${TABLE_BOARD_TABLE}
+		WHERE
+		${COL_BOARD_MEET_IDX} = #{board_meet_idx}
+		ORDER BY
+		${COL_BOARD_VIEW_CNT} DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+
+
+
+	<select id="selectByBno" resultType="Board">
+		SELECT * FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BNO} = #{bno}
+	</select>
+	
+	<select id="selectNew" resultType="Board">
+		
+		SELECT *
+		FROM 
+ 		(
+  		SELECT * FROM
+		${TABLE_BOARD_TABLE}
+		WHERE ${COL_BOARD_TITLE} = #{board_title}
+		ORDER BY ${COL_BOARD_REG_DATE} DESC
+ 		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<!-- 홈화면 최근작성 자유로운 서평 출력용 셀렉트 3개 -->
+	<select id="selectThree" resultType="Board">
+
+		SELECT * FROM (
+
+		SELECT * FROM ${TABLE_BOARD_TABLE} WHERE ${COL_BOARD_MEET_IDX} = '0' ORDER BY ${COL_BNO}
+		DESC)
+
+		<![CDATA[where rownum <= 3]]>
+
+	</select>
+	
+	<select id="selectByUserCode" resultType="Board">
+	
+		SELECT * FROM ${TABLE_BOARD_TABLE} 
+		WHERE ${COL_BOARD_USERCODE} = #{userCode}
+	
+	</select>
+	
+	<select id="selectBest" resultType="Board">
+	
+	
+	SELECT * FROM ( SELECT * FROM ${TABLE_BOARD_TABLE} 
+	ORDER BY ${COL_BOARD_LIKE_CNT} DESC )
+	<![CDATA[WHERE ROWNUM <=6]]>
+	
+	
+	</select>
+
+
+<select id="selectByMeetIdx" resultType="Board">
+	SELECT * FROM ${TABLE_BOARD_TABLE} 
+		WHERE ${COL_BOARD_MEET_IDX} = #{board_meet_idx}
+
+</select>
+
+
+	<insert id="create">
+		INSERT INTO ${TABLE_BOARD_TABLE} (${COL_BOARD_TITLE},
+		${COL_BOARD_USERID},
+		${COL_BOARD_CONTENT}, ${COL_BOARD_TAG},
+		${COL_BOARD_BOOK_TITLE},
+		${COL_BOARD_BOOK_AUTHORS},
+		${COL_BOARD_BOOK_PUB},
+		${COL_BOARD_BOOK_IMG},
+		${COL_BOARD_USERCODE},
+		${COL_BOARD_MEET_IDX})
+		VALUES (#{board_title},
+		#{board_userid}, #{board_content}, #{board_tag},
+		#{board_book_title},
+		#{board_book_authors}, #{board_book_pub},
+		#{board_book_img},
+		#{board_usercode},
+		#{board_meet_idx})
+	</insert>
+
+	<!-- 게시글 수정 -->
+	<update id="update">
+		UPDATE ${TABLE_BOARD_TABLE}
+		SET ${COL_BOARD_TITLE} = #{board_title}, 
+		${COL_BOARD_CONTENT} = #{board_content},
+		${COL_BOARD_REG_DATE} = sysdate,
+		${COL_BOARD_BOOK_TITLE} = #{board_book_title},
+		${COL_BOARD_BOOK_AUTHORS} = #{board_book_authors},
+		${COL_BOARD_BOOK_PUB} = #{board_book_pub},
+		${COL_BOARD_BOOK_IMG} = #{board_book_img},
+		${COL_BOARD_TAG} = #{board_tag}
+		WHERE ${COL_BNO} = #{bno}
+	</update>
+
+	<!-- 게시글 view_cnt -->
+	<update id="updateViewCnt">
+		UPDATE ${TABLE_BOARD_TABLE}
+		SET ${COL_BOARD_VIEW_CNT}
+		= ${COL_BOARD_VIEW_CNT} + 1
+		WHERE ${COL_BNO} = #{bno}
+	</update>
+
+	<update id="updateLike">
+		UPDATE ${TABLE_BOARD_TABLE}
+		SET ${COL_BOARD_LIKE_CNT} = ${COL_BOARD_LIKE_CNT} + #{increase},
+			${COL_BOARD_LIKE} = #{board_like}
+		WHERE ${COL_BNO} = #{bno}
+	</update>
+
+
+	<!-- 게시글 삭제 -->
+	<delete id="delete">
+		DELETE FROM ${TABLE_BOARD_TABLE}
+		WHERE ${COL_BNO} =
+		#{bno}
+	</delete>
+
+	<!-- 키워드 검색: (1) 제목, (2) 내용, (3) 제목+내용, (4) 작성자 아이디 -->
+	<!-- 동적 SQL -->
+	<select id="selectByKeyword" resultType="Board">
+		SELECT * FROM ${TABLE_BOARD_TABLE}
+		<if test="type == 1">
+			WHERE lower(${COL_BOARD_TITLE}) LIKE #{keyword}
+		</if>
+		<if test="type == 2">
+			WHERE lower(${COL_BOARD_CONTENT}) LIKE #{keyword}
+		</if>
+		<if test="type == 3">
+			WHERE lower(${COL_BOARD_TITLE}) LIKE #{keyword}
+			OR
+			lower(${COL_BOARD_CONTENT}) LIKE #{keyword}
+		</if>
+		<if test="type == 4">
+			WHERE lower(${COL_BOARD_USERID}) LIKE #{keyword}
+		</if>
+		ORDER BY ${COL_BNO} DESC
+	</select>
+	<!-- 해당 글 번호의 댓글 수자를 증가 또는 감소 -->
+	<update id="updateReplyCnt">
+		UPDATE ${TABLE_BOARD_TABLE}
+		SET ${COL_BOARD_REPLY_CNT}
+		= ${COL_BOARD_REPLY_CNT} + #{increase}
+		WHERE ${COL_BNO} = #{bno}
+	</update>
+
+
+
+</mapper>

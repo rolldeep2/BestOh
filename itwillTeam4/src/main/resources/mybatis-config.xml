@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- MyBatis의 여러가지 환경 설정 -->
+
+    <!-- 데이터베이스의 테이블 이름, 컬럼 이름들을 정의 -->
+    <properties>
+        <!-- BOARD_TABLE 테이블 관련 상수들 -->
+        <property name="TABLE_BOARD_TABLE" value="board_table" />
+        <property name="COL_BNO" value="bno" />
+        <property name="COL_BOARD_TITLE" value="board_title" />
+        <property name="COL_BOARD_CONTENT" value="board_content" />
+        <property name="COL_BOARD_LIKE" value="board_like" />
+        <property name="COL_BOARD_MEET_IDX" value="board_meet_idx" />
+        <property name="COL_BOARD_REG_DATE" value="board_reg_date" />
+        <property name="COL_BOARD_TAG" value="board_tag" />
+        <property name="COL_BOARD_BOOK_TITLE"
+            value="board_book_title" />
+        <property name="COL_BOARD_BOOK_AUTHORS"
+            value="board_book_authors" />
+        <property name="COL_BOARD_BOOK_PUB" value="board_book_pub" />
+        <property name="COL_BOARD_BOOK_IMG" value="board_book_img" />
+        <property name="COL_BOARD_USERID" value="board_userid" />
+        <property name="COL_BOARD_REPLY_CNT" value="board_reply_cnt" />
+        <property name="COL_BOARD_VIEW_CNT" value="board_view_cnt"/>
+        <property name="COL_BOARD_LIKE_CNT" value="board_like_cnt"/>
+        <property name="COL_BOARD_USERCODE" value="board_usercode"/>
+        <!-- USER_TABLE 테이블 관련 상수들 -->
+        <property name="TABLE_USER_TABLE" value="user_table" />
+        <property name="COL_USER_CODE" value="user_code" />
+        <property name="COL_USER_ID" value="user_id" />
+        <property name="COL_USER_PWD" value="user_pwd" />
+        <property name="COL_USER_NN" value="user_nn" />
+        <property name="COL_USER_NAME" value="user_name" />
+        <property name="COL_USER_REG_DATE" value="user_reg_date" />
+        <property name="COL_USER_PHONE" value="user_phone" />
+        <property name="COL_USER_MEET_IDX" value="user_meet_idx" />
+        <property name="COL_USER_ADMIN_CHECK"
+            value="user_admin_check" />
+        <property name="COL_USER_TAG" value="user_tag" />
+        <property name="COL_USER_KEY" value="user_key"/>
+
+
+        <!-- MEET_TABLE 테이블 관련 상수들 -->
+        <property name="TABLE_MEET_TABLE" value="meet_table" />
+        <property name="COL_MEET_IDX" value="meet_idx" />
+        <property name="COL_MEET_NAME" value="meet_name" />
+        <property name="COL_MEET_HOST" value="meet_host" />
+        <property name="COL_MEET_INTRO" value="meet_intro" />
+        <property name="COL_MEET_THEME" value="meet_theme" />
+        <property name="COL_MEET_MEMBER_NUM" value="meet_member_num" />
+        <property name="COL_MEET_ON_OR_OFF" value="meet_on_or_off" />
+        <property name="COL_MEET_WHEN" value="meet_when" />
+        <property name="COL_MEET_BOOK_TITLE" value="meet_book_title" />
+        <property name="COL_MEET_BOOK_AUTHORS"
+            value="meet_book_authors" />
+        <property name="COL_MEET_BOOK_PUB" value="meet_book_pub" />
+        <property name="COL_MEET_BOOK_IMG" value="meet_book_img" />
+        <property name="COL_MEET_HOST_NAME" value="meet_host_name" />
+        <property name="COL_MEET_MEMBER_CODE" value="meet_member_code" />
+        <property name="COL_MEET_JOIN_NUM" value="meet_join_num" />
+
+
+        <!-- NOTICE_TABLE 테이블 관련 상수들 -->
+        <property name="TABLE_NOTICE_TABLE" value="notice_table" />
+        <property name="COL_NOTICE_IDX" value="notice_idx" />
+        <property name="COL_NOTICE_TITLE" value="notice_title" />
+        <property name="COL_NOTICE_CONTENT" value="notice_content" />
+        <property name="COL_NOTICE_REG_DATE" value="notice_reg_date" />
+        <property name="COL_NOTICE_CATEGORY" value="notice_category" />
+
+        <!-- REPLY_TABLE 테이블 관련 상수들 -->
+        <!-- userid, bno는 기존거 사용 -->
+        <property name="TABLE_REPLY_TABLE" value="reply_table" />
+        <property name="COL_RNO" value="rno" />
+        <property name="COL_RTEXT" value="rtext" />
+        <property name="COL_REPLY_REG_DATE" value="reply_reg_date" />
+        <property name="COL_REPLY_LIKE" value="reply_like" />
+        <property name="COL_REPLY_LIKE_CNT" value="reply_like_cnt" />
+    </properties>
+
+    <typeAliases>
+        <package name="edu.spring.team4.domain" />
+    </typeAliases>
+    
+</configuration>
